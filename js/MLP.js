@@ -115,6 +115,81 @@ class MLP {
 		}
 	}
 
+	save(){
+		let nn = {
+			inputsToHidden: { 
+				rows: this.inputsToHidden.rows,
+				cols: this.inputsToHidden.cols,
+				data: this.inputsToHidden.data
+			},
+		
+			biasInputsToHidden: { 
+				rows: this.biasInputsToHidden.rows,
+				cols: this.biasInputsToHidden.cols,
+				data: this.biasInputsToHidden.data
+			},
+		
+			hiddenToOutputs: { 
+				rows: this.hiddenToOutputs.rows,
+				cols: this.hiddenToOutputs.cols,
+				data: this.hiddenToOutputs.data
+			},
+		
+			biasHiddenToOutputs: { 
+				rows: this.biasHiddenToOutputs.rows,
+				cols: this.biasHiddenToOutputs.cols,
+				data: this.biasHiddenToOutputs.data
+			},
+		
+			lr: this.lr,
+		
+			it: this.it,
+		
+			activation: 'sigmoid',
+		
+			dActivation: 'dSigmoid'
+		};
+		let blob = new Blob([JSON.stringify(nn)], {type: 'text/json'});
+		let link = document.createElement('a');
+		link.href = window.URL.createObjectURL(blob);
+		link.download = 'nn.json';
+		link.click();
+	}
+
+	load(nn){
+		//let nn = JSON.parse( values );
+		
+		this.inputsToHidden = new Matrix(
+			nn.inputsToHidden.rows, 
+			nn.inputsToHidden.cols,
+			nn.inputsToHidden.data
+		);
+		
+		this.biasInputsToHidden = new Matrix(
+			nn.biasInputsToHidden.rows, 
+			nn.biasInputsToHidden.cols,
+			nn.biasInputsToHidden.data
+		);
+		
+		this.hiddenToOutputs = new Matrix(
+			nn.hiddenToOutputs.rows, 
+			nn.hiddenToOutputs.cols,
+			nn.hiddenToOutputs.data
+		);
+		
+		this.biasHiddenToOutputs = new Matrix(
+			nn.biasHiddenToOutputs.rows, 
+			nn.biasHiddenToOutputs.cols,
+			nn.biasHiddenToOutputs.data
+		);
+		
+		this.lr = nn.lr;
+		
+		this.it = nn.it;
+		
+		console.log( "loaded" );
+	}
+
 	sigmoid(x){
 		return 1 / ( 1 + Math.exp(-x) );
 	}
