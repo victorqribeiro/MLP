@@ -6,7 +6,7 @@ class Matrix {
 		if( values instanceof Array ){
 			this.data = values.slice();
 		}else if( values == "RANDOM" ){
-			this.data = Array( this.rows * this.cols ).fill().map( _ => Math.random() );
+			this.data = Array( this.rows * this.cols ).fill().map( _ => Math.random() * 2 - 1 );
 		}else{
 			this.data = Array( this.rows * this.cols ).fill( values );
 		}

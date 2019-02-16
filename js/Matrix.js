@@ -16,7 +16,7 @@ class Matrix {
 			for(let i = 0; i < this.rows; i++){
 				let arr = [];
 				for(let j = 0; j < this.cols; j++){
-					arr.push( Math.random() );
+					arr.push( Math.random() * 2 - 1 );
 				}
 				this.data.push(arr);
 			}

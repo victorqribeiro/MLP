@@ -22,9 +22,9 @@ class MLP {
 
 	predict(inputs){	
 	  
-		const inputsMatrix = new Matrix(inputs.length, 1, inputs);
+		let inputsMatrix = new Matrix(inputs.length, 1, inputs);
 		
-		const hidden = this.inputsToHidden.multiply( inputsMatrix );
+		let hidden = this.inputsToHidden.multiply( inputsMatrix );
 
 		hidden.add( this.biasInputsToHidden );
 		
