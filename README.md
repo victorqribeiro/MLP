@@ -72,4 +72,4 @@ nn.shuffle( x, y );
 
 ## Applications
 
-[I trained my neural network to detect when I'm in front of the PC](https://www.youtube.com/watch?v=qcWJdgruG74) (code coming real soon)
+[I trained my neural network to detect when I'm in front of the PC](https://github.com/victorqribeiro/faceRecognition).
