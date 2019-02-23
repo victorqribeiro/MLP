@@ -98,10 +98,6 @@ class MLP {
 
 			}
 			it++;
-			if( it < this.it ){
-				console.log( it );
-				requestAnimationFrame( this.fit );
-			}
 			if( it % 100 == 0 )
 				console.log( Math.sqrt(s) );
 		};
@@ -192,6 +188,32 @@ class MLP {
 		this.it = nn.it;
 		
 		console.log( "loaded" );
+	}
+	
+	softmax(x){
+		/* expect a vector instead of single input */
+		if( !(x instanceof Array) )
+			return null;
+			
+		let sum = 0;
+		for(let i = 0; i < x; i++){
+			sum += Math.exp(x[i]);
+		}
+		for(let i = 0; i < x; i++){
+			x[i] = Math.exp(x) / sum;
+		}
+		return x;
+	}
+	
+	dSoftmax(labels, x){
+		/* expect a vectors instead of single inputs */
+		if( !(x instanceof Array) )
+			return null;
+			
+		for(let i = 0; i < x.length; i++){
+			x[i] = labels[i] - x;
+		}
+		return x;
 	}
 
 	sigmoid(x){
