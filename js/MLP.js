@@ -157,7 +157,6 @@ class MLP {
 	}
 
 	load(nn){
-		//let nn = JSON.parse( values );
 		
 		this.inputsToHidden = new Matrix(
 			nn.inputsToHidden.rows, 
