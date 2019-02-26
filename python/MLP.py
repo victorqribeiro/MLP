@@ -91,3 +91,41 @@ class MLP(object) :
 			it += 1
 			if it % 2 == 0 :
 				print( it, s )
+				
+	def save(self) :
+		import json
+		nn = {
+			'inputsToHidden': { 
+				'rows': self.inputsToHidden.shape[0],
+				'cols': self.inputsToHidden.shape[1],
+				'data': np.ndarray.tolist(self.inputsToHidden)
+			},
+		
+			'biasInputsToHidden': { 
+				'rows': self.biasInputsToHidden.shape[0],
+				'cols': self.biasInputsToHidden.shape[1],
+				'data': np.ndarray.tolist(self.biasInputsToHidden)
+			},
+		
+			'hiddenToOutputs': { 
+				'rows': self.hiddenToOutputs.shape[0],
+				'cols': self.hiddenToOutputs.shape[1],
+				'data': np.ndarray.tolist(self.hiddenToOutputs)
+			},
+		
+			'biasHiddenToOutputs': { 
+				'rows': self.biasHiddenToOutputs.shape[0],
+				'cols': self.biasHiddenToOutputs.shape[1],
+				'data': np.ndarray.tolist(self.biasHiddenToOutputs)
+			},
+		
+			'lr': self.lr,
+		
+			'it': self.it,
+		
+			'activation': 'sigmoid',
+		
+			'dActivation': 'dSigmoid'
+		};
+		with open('nn.json', 'w') as fp:
+			json.dump(nn, fp)
