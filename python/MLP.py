@@ -65,7 +65,7 @@ class MLP(object) :
 				
 				error = np.subtract( label, output )
 				
-				s = np.sum( self.err_sqr(error) )
+				s += np.sum( self.err_sqr(error) )
 				
 				output = self.dSigmoid( output )
 				
