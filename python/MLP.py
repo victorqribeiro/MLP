@@ -1,4 +1,5 @@
 import numpy as np
+np.seterr(over='ignore')
 
 class MLP(object) :
 	
@@ -19,6 +20,8 @@ class MLP(object) :
 		self.sigmoid = lambda x : 1.0 / ( 1.0 + np.exp(-x) )
 		
 		self.dSigmoid = lambda x : x * (1.0 - x)
+		
+		self.err_sqr = lambda x : x ** 2
 
 	def predict(self, inputs) :
 		
@@ -62,7 +65,7 @@ class MLP(object) :
 				
 				error = np.subtract( label, output )
 				
-				s = sum( [ x**2 for x in error ] )
+				s = np.sum( self.err_sqr(error) )
 				
 				output = self.dSigmoid( output )
 				
@@ -90,7 +93,7 @@ class MLP(object) :
 				
 			it += 1
 			if it % 2 == 0 :
-				print( it, s )
+				print( it, np.sqrt(s) )
 				
 	def save(self) :
 		import json
@@ -98,25 +101,25 @@ class MLP(object) :
 			'inputsToHidden': { 
 				'rows': self.inputsToHidden.shape[0],
 				'cols': self.inputsToHidden.shape[1],
-				'data': np.ndarray.tolist(self.inputsToHidden)
+				'data': self.inputsToHidden.reshape(-1).tolist()
 			},
 		
 			'biasInputsToHidden': { 
 				'rows': self.biasInputsToHidden.shape[0],
 				'cols': self.biasInputsToHidden.shape[1],
-				'data': np.ndarray.tolist(self.biasInputsToHidden)
+				'data': self.biasInputsToHidden.reshape(-1).tolist()
 			},
 		
 			'hiddenToOutputs': { 
 				'rows': self.hiddenToOutputs.shape[0],
 				'cols': self.hiddenToOutputs.shape[1],
-				'data': np.ndarray.tolist(self.hiddenToOutputs)
+				'data': self.hiddenToOutputs.reshape(-1).tolist()
 			},
 		
 			'biasHiddenToOutputs': { 
 				'rows': self.biasHiddenToOutputs.shape[0],
 				'cols': self.biasHiddenToOutputs.shape[1],
-				'data': np.ndarray.tolist(self.biasHiddenToOutputs)
+				'data': self.biasHiddenToOutputs.reshape(-1).tolist()
 			},
 		
 			'lr': self.lr,
