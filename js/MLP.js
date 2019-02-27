@@ -90,9 +90,9 @@ class MLP {
 				
 				input.transpose();
 				
-				const weight_ih_deltas = hidden.multiply( input );
+				const inputsToHiddenDeltas = hidden.multiply( input );
 				
-				this.inputsToHidden.add( weight_ih_deltas );
+				this.inputsToHidden.add( inputsToHiddenDeltas );
 				this.biasInputsToHidden.add( hidden );
 				
 
