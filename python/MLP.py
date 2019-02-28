@@ -3,7 +3,7 @@ np.seterr(over='ignore')
 
 class MLP(object) :
 	
-	def __init__(self, inputs, hidden, output, learningRate = 0.1, iterations = 100) :
+	def __init__(self, inputs = 0, hidden = 0, output = 0, learningRate = 0.1, iterations = 100) :
 	
 		self.inputsToHidden = np.random.uniform(low=-1.0, high=1.0, size=(hidden,inputs))
 		
@@ -18,13 +18,14 @@ class MLP(object) :
 		self.it = iterations
 		
 		self.sigmoid = lambda x : 1.0 / ( 1.0 + np.exp(-x) )
-		
+				
 		self.dSigmoid = lambda x : x * (1.0 - x)
 		
 		self.err_sqr = lambda x : x ** 2
 
+
 	def predict(self, inputs) :
-		
+		np.seterr(over='ignore')
 		inputsMatrix = np.array( inputs ).reshape(len(inputs),1)
 		
 		hidden = np.matmul( self.inputsToHidden, inputsMatrix )
@@ -43,9 +44,9 @@ class MLP(object) :
 		
 	def fit(self, inputs, labels) :
 		it = 0
-		while( it < self.it ) :
+		while it < self.it :
 			s = 0
-			for i in range(0,len(inputs)) :
+			for i in range(len(inputs)) :
 			
 				label = np.array( labels[i] ).reshape(len(labels[i]),1)
 			
@@ -92,8 +93,11 @@ class MLP(object) :
 				self.biasInputsToHidden = np.add( self.biasInputsToHidden, hidden)
 				
 			it += 1
-			if it % 2 == 0 :
-				print( it, np.sqrt(s) )
+			s = np.sqrt(s)
+			print( it, s )
+			if s < 0.5 :
+				break
+
 				
 	def save(self) :
 		import json
@@ -130,5 +134,24 @@ class MLP(object) :
 		
 			'dActivation': 'dSigmoid'
 		};
-		with open('nn.json', 'w') as fp:
+		with open('nn-python.json', 'w') as fp:
 			json.dump(nn, fp)
+			
+
+	def load(self, data) :
+	
+		self.inputsToHidden = (np.array(data['inputsToHidden']['data'])
+														.reshape(data['inputsToHidden']['rows'], data['inputsToHidden']['cols']))
+		
+		self.biasInputsToHidden = (np.array(data['biasInputsToHidden']['data'])
+														.reshape(data['biasInputsToHidden']['rows'], data['biasInputsToHidden']['cols']))
+																
+		self.hiddenToOutputs = (np.array(data['hiddenToOutputs']['data'])
+														.reshape(data['hiddenToOutputs']['rows'], data['hiddenToOutputs']['cols']))
+		
+		self.biasHiddenToOutputs = (np.array(data['biasHiddenToOutputs']['data'])
+														.reshape(data['biasHiddenToOutputs']['rows'], data['biasHiddenToOutputs']['cols']))
+		
+		self.lr = data['lr']
+		
+		self.it = data['it']
