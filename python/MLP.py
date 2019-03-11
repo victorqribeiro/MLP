@@ -94,12 +94,12 @@ class MLP(object) :
 				
 			it += 1
 			s = np.sqrt(s)
-			print( it, s )
+			print( '{} - {}'.format(it,s) )
 			if s < 0.5 :
 				break
 
 				
-	def save(self) :
+	def save(self, namefile = 'nn.json') :
 		import json
 		nn = {
 			'inputsToHidden': { 
@@ -134,7 +134,7 @@ class MLP(object) :
 		
 			'dActivation': 'dSigmoid'
 		};
-		with open('nn-python.json', 'w') as fp:
+		with open(namefile, 'w') as fp:
 			json.dump(nn, fp)
 			
 
